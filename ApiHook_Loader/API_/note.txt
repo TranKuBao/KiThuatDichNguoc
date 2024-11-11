@@ -1,0 +1,21 @@
+push 0               ; MB_OK
+push offset NewTitle ; Tiêu đề mới
+push offset NewText  ; Nội dung mới
+push 0               ; NULL
+call MessageBoxA     ; Gọi MessageBoxA với nội dung mới
+ret
+
+NewText db "Hooked MessageBox!", 0
+NewTitle db "Hooked", 0
+
+
+004014F5 | 55                       | push ebp                                     |
+004014F6 | 89E5                     | mov ebp,esp                                  |
+004014F8 | 83EC 18                  | sub esp,18                                   |
+004014FB | C74424 0C 00000000       | mov dword ptr ss:[esp+C],0                   |
+00401503 | C74424 08 65504000       | mov dword ptr ss:[esp+8],callmess - copy.405 | 405065:"Application_CheckPass"
+0040150B | C74424 04 7B504000       | mov dword ptr ss:[esp+4],callmess - copy.405 | 40507B:"Login Successful !!!"
+00401513 | C70424 00000000          | mov dword ptr ss:[esp],0                     |
+0040151A | E8 79270000              | call <JMP.&MessageBoxA>                      |
+0040151F | 83EC 10                  | sub esp,10                                   |
+00401522 | 90                       | nop                                          |
